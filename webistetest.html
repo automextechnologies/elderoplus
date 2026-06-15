@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eldero+ | 30-Day Golden Wellness Challenge</title>
+    <link rel="icon" type="image/png" href="assets/elderoplusicononly.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#E65100',
+                            orangeDark: '#BF360C',
+                            orangeLight: '#FBE9E7',
+                            cream: '#FAF9F6',
+                            charcoal: '#212121',
+                            muted: '#616161'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Fraunces', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF9F6;
+            color: #212121;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Fraunces', serif;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
+
+    <style id="mobile-ux-upgrades">
+        @media (max-width: 640px) {
+
+            section.py-16 {
+                padding-top: 2.75rem !important;
+                padding-bottom: 2.75rem !important;
+            }
+
+            h1.text-2xl {
+                font-size: 2.25rem !important;
+                line-height: 1.15 !important;
+            }
+
+            p.text-sm.sm\:text-2xl {
+                font-size: 1.125rem !important;
+                line-height: 1.75 !important;
+            }
+
+            a,
+            button {
+                min-height: 48px;
+            }
+
+            input,
+            select {
+                min-height: 52px;
+                border-radius: 1rem !important;
+            }
+
+            .grid.grid-cols-2.gap-4 {
+                grid-template-columns: 1fr !important;
+            }
+
+            .grid.grid-cols-3.gap-4.border-t {
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem !important;
+            }
+
+            .grid.grid-cols-3.gap-4.border-t>div {
+                background: white;
+                padding: 1rem;
+                border-radius: 1rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+            }
+
+
+
+            header .h-16 {
+                height: 3.5rem !important;
+            }
+
+            footer .flex.gap-6 {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .mobile-sticky-cta {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: .75rem;
+                background: rgba(255, 255, 255, .95);
+                backdrop-filter: blur(8px);
+                border-top: 1px solid #eee;
+                z-index: 60;
+            }
+
+            .mobile-sticky-cta a {
+                display: block;
+                width: 100%;
+                text-align: center;
+                background: #E65100;
+                color: white;
+                font-weight: 700;
+                padding: 1rem;
+                border-radius: 1rem;
+                text-decoration: none;
+            }
+
+            .mobile-safe-space {
+                height: 90px;
+            }
+        }
+
+        @media (min-width:641px) {
+
+            .mobile-sticky-cta,
+            .mobile-safe-space {
+                display: none;
+            }
+        }
+    </style>
+    <script src="google-apps-script.js" defer></script>
+</head>
+
+<body x-data="{ 
+    offlineMock: false, 
+    formSubmitted: false, 
+    mobileMenuOpen: false
+}" @form-success.window="formSubmitted = true">
+
+    <!-- <div class="bg-brand-orangeDark text-white text-center py-4 px-4 text-sm font-medium tracking-wide">
+        ✨ Designed to be easy to read, simple to tap, and works even without internet.
+    </div> -->
+
+    <header class="pt-4 sticky top-0 z-50 bg-brand-cream/90 backdrop-blur-md execution-layer">
+        <div class="max-w-6xl mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <img src="assets/elderoplusicononly.png" alt="Eldero+ Logo"
+                    class="w-10 h-10 md:w-12 md:h-12 object-contain shadow-md rounded-full bg-white">
+                <div>
+                    <span class="text-2xl md:text-2xl font-serif font-bold tracking-tight text-brand-orange">Eldero<span
+                            class="font-sans font-light">+</span></span>
+                    <span class="block text-[10px] md:text-xs uppercase tracking-widest text-brand-muted">Live
+                        Healthy</span>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center gap-8 font-medium text-brand-charcoal">
+                <a href="#about" class="hover:text-brand-orange transition-colors py-2 text-lg">About Us</a>
+                <a href="#packages" class="hover:text-brand-orange transition-colors py-2 text-lg">Packages</a>
+            </nav>
+            <!-- Desktop CTA Button -->
+            <div class="hidden md:flex items-center gap-2 sm:gap-4">
+                <a href="#onboard"
+                    class="inline-flex items-center justify-center px-3 py-1.5 sm:px-6 sm:py-3 border-2 border-brand-orange text-brand-orange font-bold rounded-lg sm:rounded-xl hover:bg-brand-orange hover:text-white transition-all text-xs sm:text-base md:text-lg shadow-sm whitespace-nowrap">
+                    Start Challenge
+                </a>
+            </div>
+            <!-- Mobile Menu Toggle Button -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen"
+                class="md:hidden p-2 rounded-lg text-brand-charcoal hover:bg-brand-orangeLight hover:text-brand-orange focus:outline-none transition-colors"
+                aria-label="Toggle Menu">
+                <!-- Hamburger Icon -->
+                <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+                <!-- Close Icon -->
+                <svg x-show="mobileMenuOpen" x-cloak class="w-6 h-6" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Backdrop Overlay -->
+    <div x-show="mobileMenuOpen" @click="mobileMenuOpen = false" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" x-cloak
+        class="md:!hidden fixed inset-0 z-40 bg-brand-charcoal/40 backdrop-blur-sm"></div>
+
+    <!-- Mobile Drawer Menu (Slides from Right, Full Screen) -->
+    <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-300 transform"
+        x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+        x-transition:leave="transition ease-in duration-300 transform" x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="translate-x-full" x-cloak style="background-color: #FAF9F6;"
+        class="md:!hidden fixed inset-0 z-50 p-6 flex flex-col justify-between shadow-2xl">
+
+        <div class="space-y-8">
+            <!-- Drawer Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-orange-100">
+                <div class="flex items-center gap-2">
+                    <img src="assets/elderoplusicononly.png" alt="Eldero+ Logo"
+                        class="w-8 h-8 object-contain shadow-md rounded-full bg-white">
+                    <span class="text-xl font-serif font-bold tracking-tight text-brand-orange">Eldero<span
+                            class="font-sans font-light">+</span></span>
+                </div>
+                <button @click="mobileMenuOpen = false"
+                    class="p-2 rounded-lg text-brand-charcoal hover:bg-brand-orangeLight hover:text-brand-orange focus:outline-none transition-colors"
+                    aria-label="Close Drawer">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Drawer Navigation Links -->
+            <nav class="flex flex-col gap-6 pt-4">
+                <a href="#about" @click="mobileMenuOpen = false"
+                    class="block py-3 text-2xl font-serif font-bold text-brand-charcoal hover:text-brand-orange transition-colors">About
+                    Us</a>
+                <a href="#packages" @click="mobileMenuOpen = false"
+                    class="block py-3 text-2xl font-serif font-bold text-brand-charcoal hover:text-brand-orange transition-colors">Packages</a>
+            </nav>
+        </div>
+
+        <!-- Drawer Bottom CTA -->
+        <div class="pt-6 border-t border-orange-100">
+            <a href="#onboard" @click="mobileMenuOpen = false"
+                class="w-full inline-flex items-center justify-center bg-brand-orange hover:bg-brand-orangeDark text-white font-bold text-lg py-4 rounded-xl shadow-md transition-all text-center">
+                Start Challenge
+            </a>
+        </div>
+    </div>
+
+    <section class="relative overflow-hidden py-16 lg:py-24 border-b border-orange-50">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row gap-12 items-center justify-between">
+            <div class="flex flex-col items-center lg:items-start w-full lg:w-7/12 space-y-4 text-center lg:text-left">
+                <div
+                    class="w-fit inline-flex items-center gap-2 bg-brand-orangeLight text-brand-orangeDark px-4 py-2 rounded-full text-sm font-semibold tracking-wide uppercase">
+                    🍂 Aging with Health and Joy
+                </div>
+                <h1 class="text-2xl sm:text-5xl lg:text-6xl font-black text-brand-charcoal leading-[1.15]">
+                    Stay healthy today. Enjoy a <span class="text-brand-orange">better
+                        tomorrow</span>.
+                </h1>
+                <p class="text-sm sm:text-2xl text-brand-muted font-normal max-w-2xl leading-relaxed">
+                    Welcome to your 30-Day Health Challenge.
+                </p>
+                <div class="pt-4 flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+                    <a href="#onboard"
+                        class="w-auto inline-block bg-brand-orange hover:bg-brand-orangeDark text-white text-base sm:text-lg font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 text-center">
+                        Begin Your 30 Days Challenge
+                    </a>
+                    <a href="#packages"
+                        class="w-11/12 sm:w-auto inline-block text-center px-4 py-2 sm:px-6 sm:py-3 font-bold text-sm sm:text-base text-brand-charcoal hover:text-brand-orange transition-colors">
+                        Explore Our Packages ↓
+                    </a>
+                </div>
+
+                <div class="pt-8 border-t border-orange-100 flex justify-center lg:justify-start">
+                    <div class="text-center lg:text-left">
+                        <span class="block text-xl sm:text-2xl font-serif font-bold text-brand-orange">No Download
+                            Needed</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-5/12 flex justify-center">
+                <div
+                    class="relative w-full max-w-[240px] sm:max-w-[360px] bg-white rounded-[40px] shadow-2xl p-4 border-[10px] border-brand-charcoal aspect-[9/16] sm:aspect-[9/19]">
+                    <div
+                        class="h-full flex flex-col justify-between bg-brand-cream rounded-[28px] overflow-hidden p-3 sm:p-4 text-brand-charcoal relative">
+                        <div class="flex justify-between items-center border-b pb-2 border-orange-100">
+                            <div>
+                                <span
+                                    class="text-[10px] sm:text-xs uppercase text-brand-muted font-bold tracking-wider">Day
+                                    12 of
+                                    30</span>
+                                <h4 class="font-serif font-bold text-base sm:text-lg text-brand-orange">Your Daily
+                                    Progress</h4>
+                            </div>
+                            <div
+                                class="bg-brand-orange text-white rounded-full p-1.5 sm:p-2 text-[10px] sm:text-xs font-bold">
+                                🔥 5 Day Streak</div>
+                        </div>
+
+                        <div class="my-auto py-2 sm:py-4 text-center">
+                            <div
+                                class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-8 border-brand-orange border-t-orange-200 mx-auto flex items-center justify-center shadow-inner bg-white">
+                                <div>
+                                    <span class="text-2xl sm:text-3xl font-serif font-bold">3 / 5</span>
+                                    <span class="block text-[10px] sm:text-xs text-brand-muted">Done Today</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5 sm:space-y-2">
+                            <div
+                                class="bg-white p-2 sm:p-3 rounded-xl flex items-center justify-between border-l-4 border-emerald-500 shadow-sm">
+                                <span class="font-medium text-xs sm:text-sm">💧 Drink Water (5 glasses)</span>
+                                <span class="text-emerald-600 text-xs sm:text-sm font-bold">✓</span>
+                            </div>
+                            <div
+                                class="bg-white p-2 sm:p-3 rounded-xl flex items-center justify-between border-l-4 border-brand-orange shadow-sm">
+                                <span class="font-medium text-xs sm:text-sm text-brand-orange">🧠 Afternoon
+                                    Meditation</span>
+                                <span class="bg-brand-orange text-white text-xs px-2 py-0.5 rounded-full">Tap</span>
+                            </div>
+                        </div>
+
+                        <div class="w-24 h-1 bg-brand-charcoal mx-auto rounded-full mt-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="packages" class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center space-y-4 mb-12">
+                <h2 class="text-3xl sm:text-5xl font-bold text-brand-charcoal">All-Inclusive Wellness Package</h2>
+                <p class="text-base sm:text-lg text-brand-muted max-w-xl mx-auto">
+                    A comprehensive wellness program designed specifically to support, guide, and keep you active.
+                </p>
+            </div>
+
+            <div class="max-w-md sm:max-w-lg mx-auto bg-white rounded-3xl border-2 border-brand-orange shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                <!-- Card Header -->
+                <div class="bg-brand-orangeLight px-6 py-8 text-center border-b border-orange-100">
+                    <span class="inline-block bg-brand-orange text-white text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider mb-2">
+                        Complete Wellness Program
+                    </span>
+                    <h3 class="text-3xl font-bold font-serif text-brand-charcoal">30-Day Golden Challenge</h3>
+                    <div class="mt-4 flex items-baseline justify-center gap-1.5">
+                        <span class="text-4xl sm:text-5xl font-black text-brand-orange">₹4,000</span>
+                        <span class="text-sm font-semibold text-brand-muted">/ one-time cost</span>
+                    </div>
+                </div>
+
+                <!-- Features/Services List -->
+                <div class="p-6 sm:p-8 space-y-6">
+                    <ul class="space-y-4 text-brand-charcoal text-left">
+                        <li class="flex items-start gap-3.5">
+                            <span class="text-emerald-600 bg-emerald-50 w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold border border-emerald-100">✓</span>
+                            <div>
+                                <span class="font-bold text-base block text-brand-charcoal">Health Tracking & Reminder App</span>
+                                <span class="text-xs text-brand-muted block">Easy logging and friendly automated nudges to stay on track.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3.5">
+                            <span class="text-emerald-600 bg-emerald-50 w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold border border-emerald-100">✓</span>
+                            <div>
+                                <span class="font-bold text-base block text-brand-charcoal">Expert Consultations</span>
+                                <span class="text-xs text-brand-muted block">Direct guidance from specialists in fitness, psychology, diet, and nutrition.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3.5">
+                            <span class="text-emerald-600 bg-emerald-50 w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold border border-emerald-100">✓</span>
+                            <div>
+                                <span class="font-bold text-base block text-brand-charcoal">Live Yoga Classes</span>
+                                <span class="text-xs text-brand-muted block">Interactive, low-impact yoga sessions tailored for older adults.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3.5">
+                            <span class="text-emerald-600 bg-emerald-50 w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold border border-emerald-100">✓</span>
+                            <div>
+                                <span class="font-bold text-base block text-brand-charcoal">Live Meditation Classes</span>
+                                <span class="text-xs text-brand-muted block">Calming, instructor-led breathing and mindfulness practices.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3.5">
+                            <span class="text-emerald-600 bg-emerald-50 w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold border border-emerald-100">✓</span>
+                            <div>
+                                <span class="font-bold text-base block text-brand-charcoal">30-Day Structured Challenge</span>
+                                <span class="text-xs text-brand-muted block">Step-by-step daily milestones designed for safe, active longevity.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3.5">
+                            <span class="text-emerald-600 bg-emerald-50 w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold border border-emerald-100">✓</span>
+                            <div>
+                                <span class="font-bold text-base block text-brand-charcoal">Continuous Expert Support</span>
+                                <span class="text-xs text-brand-muted block">Dedicated experts available to guide and encourage you throughout the 30 days.</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="pt-4">
+                        <a href="#onboard" class="w-full inline-flex items-center justify-center bg-brand-orange hover:bg-brand-orangeDark text-white font-bold text-lg py-4 rounded-xl shadow-lg transition-all transform hover:scale-[1.01] active:scale-[0.99] text-center">
+                            Begin Challenge Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-brand-cream border-b border-orange-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Content Column -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div
+                        class="inline-flex items-center gap-2 bg-brand-orangeLight text-brand-orangeDark px-4 py-2 rounded-full text-sm font-semibold tracking-wide uppercase">
+                        👵 Dedicated to Senior Wellness
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-brand-charcoal leading-tight">
+                        Our Mission is Simple: Keep You Active, Healthy, & Independent
+                    </h2>
+                    <p class="text-lg text-brand-muted leading-relaxed">
+                        At Eldero+, we believe that aging is a beautiful journey that should be lived with vitality and
+                        joy. Traditional wellness apps are often too complex, bloated, or difficult to navigate. That's
+                        why we created a simpler path.
+                    </p>
+                    <p class="text-lg text-brand-muted leading-relaxed">
+                        Our platform is designed specifically for older adults, providing easy-to-follow, low-impact
+                        habits that seamlessly fit into your day. We focus on gentle physical activity, mental clarity,
+                        and proper hydration to keep your joints moving and your spirit high.
+                    </p>
+                </div>
+
+                <!-- Right Highlights Column -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-orange-100 space-y-4">
+                        <h3 class="text-xl font-bold text-brand-charcoal font-serif">Our Core Commitments</h3>
+
+                        <div class="flex items-start gap-4">
+                            <span class="text-2xl bg-orange-100 p-2.5 rounded-xl text-brand-orange">👵</span>
+                            <div>
+                                <h4 class="font-bold text-base text-brand-charcoal">For Elders</h4>
+                                <p class="text-sm text-brand-muted">Designed completely around accessibility, large
+                                    fonts, and simple navigation for older adults.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <span class="text-2xl bg-orange-100 p-2.5 rounded-xl text-brand-orange">📋</span>
+                            <div>
+                                <h4 class="font-bold text-base text-brand-charcoal">Best Consultation</h4>
+                                <p class="text-sm text-brand-muted">Receive professional wellness guidance tailored to
+                                    your specific physical needs.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <span class="text-2xl bg-orange-100 p-2.5 rounded-xl text-brand-orange">👥</span>
+                            <div>
+                                <h4 class="font-bold text-base text-brand-charcoal">Community</h4>
+                                <p class="text-sm text-brand-muted">Connect with a supportive group of fellow seniors
+                                    pursuing the same active lifestyle.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="onboard" class="py-16 bg-white">
+        <div class="max-w-xl mx-auto px-4">
+            <!-- Form State: Active -->
+            <div x-show="!formSubmitted"
+                class="bg-brand-cream border-2 border-brand-orange rounded-3xl p-6 sm:p-10 shadow-xl space-y-6">
+                <div class="text-center space-y-2">
+                    <h3 class="text-2xl sm:text-3xl font-bold tracking-tight">Join the Challenge</h3>
+                    <p class="text-brand-muted text-sm sm:text-base">Tell us a little about yourself so we can set up
+                        your plan.</p>
+                </div>
+
+                <form id="leadForm" class="space-y-4" novalidate>
+                    <div>
+                        <label class="block text-sm font-bold text-brand-charcoal mb-1">Full Name</label>
+                        <input type="text" id="nameInput" required placeholder="Enter first and last name" name="name"
+                            pattern="[A-Za-z\s]+"
+                            class="w-full bg-white border border-orange-200 focus:ring-brand-orange rounded-xl px-4 py-3 text-base font-medium focus:outline-none focus:ring-2 text-[16px]">
+                        <span id="nameError" class="block text-red-500 text-xs mt-1 font-bold hidden"></span>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-brand-charcoal mb-1">Phone Number</label>
+                        <input type="tel" id="phoneInput" required placeholder="Enter your 10-digit phone number" name="phone"
+                            pattern="[0-9]{10}" inputmode="numeric" maxlength="10"
+                            class="w-full bg-white border border-orange-200 focus:ring-brand-orange rounded-xl px-4 py-3 text-base font-medium focus:outline-none focus:ring-2 text-[16px]">
+                        <span id="phoneError" class="block text-red-500 text-xs mt-1 font-bold hidden"></span>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl border border-orange-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🔔</span>
+                            <div>
+                                <span class="block font-bold text-sm">Turn on Gentle Reminders</span>
+                                <span class="block text-xs text-brand-muted">Get friendly nudges to stay on track</span>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="remindersInput" checked name="reminders" class="w-6 h-6 accent-brand-orange">
+                    </div>
+
+                    <div class="flex items-start gap-3 mt-4">
+                        <input type="checkbox" required id="consent" class="mt-1 w-5 h-5 accent-brand-orange">
+                        <label for="consent" class="text-sm text-brand-charcoal">
+                            I agree to the <a href="terms-conditions.html" class="text-brand-orange underline">Terms and
+                                Conditions</a> and <a href="privacy-policy.html"
+                                class="text-brand-orange underline">Privacy Policy</a>.
+                        </label>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full sm:w-auto bg-brand-orange hover:bg-brand-orangeDark text-white font-bold text-lg sm:text-xl px-8 py-3 sm:py-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 mt-2 min-h-[48px] mx-auto block">
+                        Start My 30-Day Plan →
+                    </button>
+                </form>
+                <p class="text-center text-xs text-brand-muted">By joining, you agree that your information will be kept
+                    safe and private.</p>
+            </div>
+
+            <!-- Form State: Submitted / Success -->
+            <div x-show="formSubmitted"
+                class="bg-brand-cream border-2 border-brand-orange rounded-3xl p-6 sm:p-10 shadow-xl text-center space-y-6"
+                x-cloak>
+                <div
+                    class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto">
+                    ✓
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-brand-charcoal font-serif">Registration
+                    Successful!</h3>
+                <p class="text-brand-muted text-base leading-relaxed">
+                    Thank you! Our team will contact you shortly to get you started with your 30-Day Golden Wellness
+                    Challenge.
+                </p>
+                <button @click="formSubmitted = false"
+                    class="inline-block bg-brand-orange hover:bg-brand-orangeDark text-white font-bold text-base px-6 py-3 rounded-xl shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]">
+                    Register Another Account
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-16 bg-brand-cream border-t border-orange-100">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8">Common Questions</h2>
+            <div class="space-y-4">
+                <div class="bg-white p-6 rounded-xl border border-orange-50">
+                    <h4 class="text-lg font-bold mb-2">Do I need to download this from an app store?</h4>
+                    <p class="text-base text-brand-muted">No, you don't need to download an app. You can simply add this
+                        website to your phone's home screen for easy access.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-orange-50">
+                    <h4 class="text-lg font-bold mb-2">Will I get reminders if my internet stops working?</h4>
+                    <p class="text-base text-brand-muted">Yes! Our system is designed to keep sending your reminders
+                        even if your internet connection goes out.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-orange-50">
+                    <h4 class="text-lg font-bold mb-2">Is my personal health information private?</h4>
+                    <p class="text-base text-brand-muted">Yes, completely. Your information stays safe on your device
+                        and is never shared with outsiders or sold to anyone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brand-charcoal text-white py-12 border-t-4 border-brand-orange">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <span class="text-2xl font-serif font-bold text-brand-orangeLight">Eldero+</span>
+                <p class="text-sm text-gray-400 mt-1">Stay healthy today. Enjoy a better tomorrow. Designed simply for
+                    you.</p>
+                <div class="flex gap-4 mt-3 justify-center md:justify-start">
+                    <a href="https://www.facebook.com/profile.php?id=61590689556431" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/_eldero.plus/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="flex gap-6 text-sm text-gray-400">
+                <a href="privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="terms-conditions.html" class="hover:text-white transition-colors">Terms & Conditions</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- <div class="mobile-sticky-cta">
+        <a href="#onboard">Start Challenge</a>
+    </div> -->
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/918848927464?text=Hi!%20I%27m%20interested%20in%20learning%20more%20about%20Eldero%2B%20Wellness%20Challenge."
+        target="_blank" rel="noopener noreferrer"
+        class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20BA56] text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center group"
+        aria-label="Chat on WhatsApp">
+        <!-- SVG WhatsApp Icon -->
+        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+            <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.455L0 24zm6.59-4.846c1.6.95 3.588 1.485 5.421 1.486 5.379 0 9.761-4.38 9.764-9.76.002-2.607-1.012-5.059-2.859-6.908C17.128 2.124 14.685 1.11 12.01 1.11c-5.38 0-9.763 4.38-9.766 9.76-.001 1.838.482 3.634 1.4 5.207L2.68 20.27l4.477-1.176zM17.482 14.3c-.302-.15-1.786-.88-2.062-.98-.276-.1-.477-.15-.677.15-.2.3-.777.98-.95 1.18-.178.2-.354.224-.656.075-1.127-.565-1.957-1.01-2.734-1.684-.62-.539-1.114-1.228-1.198-1.378-.084-.15-.009-.231.066-.306.068-.067.15-.175.225-.263.076-.088.1-.15.15-.25.05-.1.026-.188-.012-.263-.038-.075-.378-.91-.518-1.25-.137-.331-.274-.286-.378-.291-.097-.005-.21-.006-.324-.006-.114 0-.3.043-.457.213-.157.171-.6.586-.6 1.43 0 .844.613 1.66.7 1.78.086.12 1.206 1.84 2.923 2.58.408.176.726.281.974.36.41.13.784.112 1.08.068.33-.05 1.787-.73 2.037-1.43.25-.7.25-1.294.175-1.43-.075-.137-.275-.217-.577-.367z" />
+        </svg>
+        <span
+            class="absolute right-16 bg-brand-charcoal text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-md whitespace-nowrap pointer-events-none">
+            Chat with Us
+        </span>
+    </a>
+
+</body>
+
+</html>
