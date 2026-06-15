@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       await fetch(
-        'YOUR_APPS_SCRIPT_WEB_APP_URL',
+        'https://script.google.com/macros/s/AKfycbxbrEt0NOF4GUF_XMVLYb0IsrwSvAchCo5ai6JjjR0PCph880EW4mufav7bvQaPPYne/exec',
         {
           method: 'POST',
           mode: 'no-cors',
